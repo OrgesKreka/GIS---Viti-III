@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Ushtrim</title>
+
+	<script src="https://maps.googleapis.com/maps/api/js?sensor=false&language=en"></script>
+
+	<style>
+		body,html
+		{
+			height: 100%;
+			width: 100%;
+			padding: 0;
+			margin: 0;
+		}
+
+		#harta
+		{
+			width: 100%;
+			height: 100%;
+		}
+	</style>
+</head>
+<body>
+	
+	<div id="harta"></div>
+
+	
+	<!-- Ushtrimi 1: 
+		Krijoni nje harte tek e cila duhet te jete inaktiv kontrolleri i rrugeve dhe qendra te jete ne tirane -->
+		<!-- <script>
+			
+			var harta; /// variabli qe do te ruaje objektin e hartes, deklarim global
+
+			var init = function()
+			{
+				var div = document.querySelector( 'div' );
+
+				var opsionet = 
+				{
+					zoom:8,
+					center: { lat: 41.3275, lng: 19.8187 },
+					mapTypeId: google.maps.MapTypeId.HYBRID,
+					streetViewControl:false
+				};
+
+				harta = new google.maps.Map( div, opsionet );
+			};///FUND
+
+			window.addEventListener( 'load', init );
+		</script> -->
+
+
+	<!-- Ushtrimi 2:
+		Te vendoset kontrolleri i tipit te hartes ne formen  e nje dropdown ne pozicionin LARTE_QENDER -->
+
+		<!-- <script>
+			var harta;
+
+			var init = function()
+			{
+				var div = document.querySelector( '#harta' );
+
+				var opsionet = 
+				{
+					zoom: 8,
+					center:{ lat: 41.3275, lng: 19.8187 },
+					//mapTypeControl: true,
+					mapTypeControlOptions:{ style: google.maps.MapTypeControlStyle.DROPDOWN_MENU, 
+						position: google.maps.ControlPosition.TOP_CENTER}
+				};
+
+				harta = new google.maps.Map( div, opsionet );
+			}; ///FUND
+
+
+			window.addEventListener( 'load', init );
+
+
+		</script> -->
+
+	<!-- Ushtrimi 3:
+		 Te shfaqen informacionet ne harte me ane te markerave me keto specifika,
+		 titulli i markerit te jete emri i qytetit dhe labeli i markerit te jete germa e pare e qytetit -->
+
+		 <script>
+		 	
+		 	var qytetet = 
+		 	[
+		 		{
+		 			emri: "Tirane",
+		 			pozicioni: { lat: 41.3, lng: 19.8 }
+		 		},
+		 		{
+		 			emri: "Vlora",
+		 			pozicioni: { lat:40.46, lng:19.48 }
+		 		},
+		 		{
+		 			emri: "Korca",
+		 			pozicioni: { lat: 40.61, lng: 20.77}
+		 		},
+		 		{
+		 			emri: "Fier",
+		 			pozicioni:{ lat: 40.73, lng: 19.56 }
+		 		},
+		 		{
+		 			emri: "Sarande",
+		 			pozicioni: { lat: 38.85, lng: 20.027 }
+		 		}
+		 	];
+
+
+		 	var harta;
+
+		 	var init = function()
+		 	{
+		 		var div = document.querySelector( "div#harta" );
+
+		 		var opsionet = 
+		 		{
+		 			zoom: 8,
+		 			center: { lat: 41.3275, lng: 19.8187 },
+		 			mapTypeId: google.maps.MapTypeId.TERRAIN
+		 		};
+
+		 		harta = new google.maps.Map( div, opsionet );
+
+		 		marker_at();
+		 	}; ///fund
+
+		 	var marker_at = function()
+		 	{
+		 		for( var i = 0; i < qytetet.length; i++ )
+		 		{
+		 			var marker = new google.maps.Marker(
+		 			{
+		 				position: qytetet[ i ].pozicioni,
+		 				label: qytetet[ i ].emri.charAt( 0 )
+		 			});
+
+		 			marker.setMap( harta );
+
+		 			info_window = new google.maps.InfoWindow(
+		 			{
+		 				content: "Emri Qytetit = " + qytetet[ i ].emri
+		 			});
+
+		 			info_window.open( harta, marker );
+		 		}
+		 	};///FUND
+
+
+		 	window.addEventListener( 'load', init );
+
+		 </script>
+</body>
+</html>

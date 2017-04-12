@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Kerkesa 4</title>
+
+	<script src="https://maps.googleapis.com/maps/api/js?sensor=false&language=en"></script>
+
+	<style>
+			
+		html, body
+		{
+			height: 100%;
+			overflow: hidden;
+		}
+
+		#harta
+		{
+			width: 100%;
+			height: 100%;
+		}
+		
+		h2,h4
+		{
+			text-align: center;
+		}
+	</style>
+</head>
+<body>
+	
+	<h2> Disa pika parkimi ne Tirane</h2>
+	<h4> Pasi te klikoni mbi nje marker do te shfaqe nje info window</h2>
+	<h4> Mund te hiqni dhe info windown dhe markerin duke klikuar butonin 'Hiq Marker'</h2>
+	<div id="harta"></div>
+
+	<script>
+		
+		var harta; ///variabli qe do te referoje google maps
+		
+		///Pozicionet e disa vende parkimi ne Tirane
+		var vendndodhje_markerash = 
+		[
+			{ lat: 41.326878 , lng: 19.805817 },
+			{ lat: 41.319001, lng: 19.831775 },
+			{ lat: 41.323185, lng: 19.811020 }
+		];
+		var markerat = []; ///Vektor qe do te ruaje gjithe objektet e markerave
+
+
+
+		///Funksioni qe krijon harten
+		var init = function()
+		{
+			var div = document.querySelector( "#harta" );
+
+			var opsionet = 
+			{
+				zoom: 14,
+				center: { lat: 41.3275, lng: 19.8187 },
+				mapTypeId: google.maps.MapTypeId.ROADMAP
+			};
+
+			 harta = new google.maps.Map( div, opsionet );
+
+			 nderto_marker();
+		};///FUND init
+
+
+
+		///Funksioni qe nderton markerat e ruajtur tek vektori vendndodhje_markerash
+		var nderto_marker = function ()
+		{
+			for( var i = 0; i < vendndodhje_markerash.length; i++ )
+			{	
+				///Opsionet e markerit
+				var opsionet = 
+				{
+					position: vendndodhje_markerash[ i ],
+					label: i + 1 + "",
+					map: harta,
+					id: i+1
+				};
+
+				///Krijimi i objektit
+				var marker = new google.maps.Marker( opsionet );
+
+
+				///Shtimi i degjuesit te klikimit
+				marker.addListener( 'click', function( e )
+				{	
+
+					var opsione_info = 
+					{
+						content: "<button onclick='hiqMarker(  " + this.id + " )'>Hiq Marker</button>",
+						position: this.getPosition(),
+						map: harta
+					};
+					
+					///Shtimi i infoWindow si atribut i markerit
+					this.infoWindow = new google.maps.InfoWindow( opsione_info );
+
+				});///FUND addListener
+
+				///Shtimi i markerit ne vektorin markerat
+				markerat.push( marker );
+			}///FUND for
+		}; ///FUND nderto_marker
+
+
+
+		///Funksioni qe therritet kur klikohet butoni hiq marker
+		///@param id - e markerit qe do te hiqet
+		function hiqMarker( id )
+		{
+ 			
+ 		
+ 			for( var i = 0; i < markerat.length; i++ )
+ 			{
+ 				if( markerat[ i ].id === id )
+ 				{	
+
+ 					markerat[ i ].infoWindow.close();
+ 					markerat[ i ].setMap( null );
+
+ 				}///FUND if
+ 			}///FUND for
+ 		} ///FUND hiqMarker
+
+
+		///Funksioni init therritet ne ngarkim te dokumentit
+		window.addEventListener( 'load', init  );
+	</script>
+</body>
+</html>

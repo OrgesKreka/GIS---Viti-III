@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Kontrollet</title>
+
+	<script src="https://maps.googleapis.com/maps/api/js?sensor=false&language=en" type="text/javascript" ></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js"></script>
+
+	<style>
+			html, body
+			{
+				height: 100%;
+				margin: 0;
+				padding: 0;
+			}
+
+
+			#harta
+			{
+				width: 100%;
+				height: 90%;
+
+			}
+	</style>
+
+	<!-- <script>
+
+		var harta;
+
+		var init = function()
+		{
+			var div = jQuery( '#harta' )[ 0 ];
+
+			var opsionet = 
+			{
+				zoom: 4,
+				center: { lat: 40, lng: 19 },
+				disableDefaultUI: true,
+				mapTypeId: google.maps.MapTypeId.HYBRID,
+				scrollwheel: false
+			};
+
+			harta = new google.maps.Map( div, opsionet );
+
+			harta.disableScrollWheelZoom();
+		};
+
+
+		jQuery( document ).ready( function()
+		{
+			init();
+		});
+	</script> -->
+</head>
+<body>
+	
+	<div id="harta"></div>	
+
+<!-- 	<script>
+		
+		///Caktivizimi i kontrolleve nja nga nje
+		
+		var harta;
+
+		var init = function()
+		{
+			var div = jQuery( '#harta' )[ 0 ];
+
+			var opsionet =
+			{
+				zoom: 8,
+				center: { lat: 40, lng:19 },
+				mapTypeId: google.maps.MapTypeId.HYBIRD,
+				zoomControl: false, /// heqja e kontrollit te zoomimit djathtas poshte
+				mapTypeControl: false, /// heqja e llojit te hartes, majtas siper
+				scaleControl: false,
+				streetViewControl: false, /// heq street view, djathtas poshte
+				rotateControl: false,
+				fullscreenControl: false
+			};
+
+			harta = new google.maps.Map( div, opsionet );
+		};
+
+		jQuery( document ).ready( function()
+		{
+			init();
+		}); 
+
+	</script> -->
+
+
+	<script>
+		
+		/// customize kontrollerat
+		/// te gjitheve mund tu ndryshohet pozicionimi ne harte
+		/// disa mund edhe te shfaqen ndryshe
+		var init = function()
+		{
+			var div = jQuery( '#harta' )[ 0 ];
+
+			// var opsionet = 
+			// {
+			// 	zoom: 4,
+			// 	center: { lat: 40, lng: 19 },
+			// 	mapTypeId: google.maps.MapTypeId.HYBRID,
+			// 	zoomControl: true,
+			// 	zoomControlOptions:{ style: google.maps.ZoomControlStyle.SMALL}
+			// };
+
+			var opsionet = 
+			{
+				zoom:4,
+				center: { lat: 40, lng: 19 },
+				mapTypeId: google.maps.MapTypeId.TERRAIN,
+				fullscreenControl: true,
+				fullScreenControlOptions:{ position: google.maps.ControlPosition.TOP_LEFT}
+			};
+
+
+			var harta = new google.maps.Map( div, opsionet );
+
+
+			///Markerat
+			/// Deklarimi i markerit
+			// var marker = new google.maps.Marker(
+			// {
+			// 	position: harta.getCenter(),
+			// 	//map: harta /// harta mund te percaktohet ne deklarim --- ose mund te shtohet me vone me ane te metodes marker.setMap( objekti_harte );
+			// });
+
+			// marker.setMap( harta );
+			// 
+			
+			/// Customize marker
+			var marker = new google.maps.Marker(
+			{
+				position: harta.getCenter(),
+				title: "tekst",
+				label: 'p',
+				animation: google.maps.Animation.DROP,
+				draggable: true
+			});
+
+			marker.setMap( harta );
+
+			/// Per te hequr markerin, mjafton ta pointosh ne null markerin, marker.setMap( null );
+			
+
+			//// info window, i ngjitet markerit ose vete hartes
+			
+			///krijimi i nje infowindow dhe ngjitja e saj ne qender te hartes
+			
+			var info_1 = new google.maps.InfoWindow(
+			{
+				content: "permbajta e info window qe do te ngjitet hartes. . . . ",
+				position: harta.getCenter(),
+				map: harta
+			});
+
+			//info_1.open( harta, marker );
+		};
+
+		jQuery( document ).ready( function()
+		{
+			init ();
+		});
+	</script>
+</body>
+</html>

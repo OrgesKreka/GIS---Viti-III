@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Kerkesa 2</title>
+
+	<script src="https://maps.googleapis.com/maps/api/js?sensor=false&language=en"></script>
+
+	<style>
+			
+		html, body
+		{
+			height: 100%;
+		}
+
+		#harta
+		{
+			width: 100%;
+			height: 70%;
+		}
+		
+		h2
+		{
+			text-align: center;
+		}
+	</style>
+</head>
+<body>
+	
+	<h2> Disa pika parkimi ne Tirane</h2>
+	<div id="harta"></div>
+
+	<script>
+		
+		var harta; ///variabli qe do te referoje google maps
+		
+		///Pozicionet e disa vende parkimi ne Tirane
+		var markera = 
+		[
+			{ lat: 41.326878 , lng: 19.805817 },
+			{ lat: 41.319001, lng: 19.831775 },
+			{ lat: 41.323185, lng: 19.811020 }
+		];
+
+
+		///Funksioni qe krijon harten
+		var init = function()
+		{
+			var div = document.querySelector( "#harta" );
+
+			var opsionet = 
+			{
+				zoom: 14,
+				center: { lat: 41.3275, lng: 19.8187 },
+				mapTypeId: google.maps.MapTypeId.ROADMAP
+			};
+
+			 harta = new google.maps.Map( div, opsionet );
+
+			 nderto_marker();
+		};///FUND init
+
+
+		///Funksioni qe nderton markerat e ruajtur tek vektori markera
+		var nderto_marker = function ()
+		{
+			for( var i = 0; i < markera.length; i++ )
+			{
+				var opsionet = 
+				{
+					position: markera[ i ],
+					label: i + "",
+					map: harta
+				};
+
+				new google.maps.Marker( opsionet );
+			}
+		}; ///FUND nderto_marker
+
+
+		///Funksioni init therritet ne ngarkim te dokumentit
+		window.addEventListener( 'load', init  );
+	</script>
+</body>
+</html>

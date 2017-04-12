@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<title>Harta Shqiperise</title>
+
+		<script src="https://maps.googleapis.com/maps/api/js?sensor=false&language=en"></script>
+
+		<style>
+			
+			html, body
+			{
+				height: 100%;
+				margin: 0;
+				padding: 0;
+			}
+
+			#harta
+			{
+				width: 100%;
+				height: 100%;
+			}
+
+		</style>
+	</head>
+
+	<body>
+		<div id="harta"></div>
+
+		<script>
+			
+			var init = function()
+			{
+				var div = document.querySelector( "#harta" );
+
+				var opsionet = 
+				{
+					zoom: 5,
+					center: { lat: 51.508742,lng: -0.120850 },
+					mapTypeId: google.maps.MapTypeId.ROADMAP
+				};
+
+				var harta = new google.maps.Map( div, opsionet );
+
+
+				var opsione_markeri = 
+				{
+					position: harta.getCenter(),
+					///map: harta,
+					title: "marker i pozicionuar kot",
+					label: "L"
+				};
+
+
+				var marker = new google.maps.Marker( opsione_markeri );
+
+				marker.setMap( harta );
+
+
+				var opsione_infoWindow = 
+				{
+					content: "Hello World"
+				};
+
+				var infoWindow = new google.maps.InfoWindow( opsione_infoWindow );
+
+				infoWindow.open( harta, marker );
+			};
+
+
+			window.addEventListener( 'load', init );
+		</script>
+	</body>
+</html>

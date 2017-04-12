@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Prova</title>
+	<script src="https://maps.googleapis.com/maps/api/js?sensor=false"></script>
+
+	<style>
+		
+		body,html
+		{
+			width: 100%;
+			height: 100%;
+			overflow: hidden;
+			padding: 0;
+			margin: 0;
+		}
+
+		#harta
+		{
+			width: 100%;
+			height: 100%;
+		}
+	</style>
+</head>
+<body>
+	
+	<div id="harta"></div>
+
+	<script>
+		
+		var SHQIPERIA = { lat: 41.279704, lng: 19.835958 }, DEFAULT_ZOOM = 8;
+
+		var harta;
+		var foo = [];
+		var qytetet = 
+		[
+			{
+				emri: "Tirane",
+				pozicioni: { lat: 41.330848, lng: 19.817994 },
+				info: "Tirana eshte kryeqyteti i shqiperise....."
+			},
+			{
+				emri: "Durres",
+				pozicioni: { lat: 41.336470, lng: 19.443932 },
+				info: "Durresi eshte qyetet shume i vjeter.....Ai eshte gjithashtu porti me i madh detar ne vend...." 
+			},
+			{
+				emri: "Korce",
+				pozicioni: { lat: 40.613826, lng: 20.779416 },
+				info: "Korca eshte rrethi me siperfaqen me te madhe ne shqiperi..."
+			},
+			{
+				emri: "Vlore",
+				pozicioni: { lat: 40.465698, lng: 19.489917 },
+				info: "Ore vëlla...."
+			},
+			{
+				emri: "Shkoder",
+				pozicioni: { lat: 42.069321, lng: 19.502406 },
+				info: "asasasas"
+			}
+		];
+
+
+		///Krjimi dhe ngjitja e markerave
+		var krijo_markerat = function()
+		{
+			for( var i = 0; i < qytetet.length; i++ )
+			{
+				var opsionet = 
+				{
+					position: qytetet[ i ].pozicioni,
+					label: qytetet[ i ].emri.charAt( 0 )
+				};
+
+				var marker = new google.maps.Marker( opsionet );
+
+				marker.setMap( harta );
+
+				var infowindow = new google.maps.InfoWindow( { content: qytetet[ i ].info } );
+
+				console.log( infowindow );
+
+				var tmp = { marker: marker, infowindow : infowindow };
+
+				foo.push( tmp );
+
+
+				///Shtimi i eventit tek te gjithe markerat
+				marker.addListener( 'click', function( e )
+				{	 
+					var p;
+
+					///Gjetja e markerit qe ka nxitur eventin
+					for( var i = 0; i < foo.length; i++ )
+					{
+						if( foo[ i ].marker.position === this.position )
+						{
+							p = i;
+							break;
+						}
+					}///FUND for
+
+					var infoWindow = foo[ p ].infowindow;
+					var marker = foo[ p ].marker;
+
+					harta.setZoom( 15 ); ///afrimi
+					harta.setCenter( marker.getPosition() ); ///pozicionimi i hartes ne pozicionin e markerit
+					infoWindow.open( harta, marker );
+				});
+
+
+				///Shtimi i eventit tek te gjithe infowindow
+				google.maps.event.addListener( infowindow,'closeclick',function()
+				{
+  				 
+  					harta.setZoom( DEFAULT_ZOOM  );
+  					harta.setCenter( SHQIPERIA );
+				});
+
+			}
+		};
+
+		///Krijimi i hartes
+		var init = function()
+		{
+			var div = document.querySelector( '#harta' );
+
+			var opsionet = 
+			{
+				zoom: DEFAULT_ZOOM,
+				center: SHQIPERIA,
+				mapTypeId: google.maps.MapTypeId.ROADTRIP
+			};
+
+			harta = new google.maps.Map( div, opsionet );
+
+			krijo_markerat();
+		};
+
+		window.addEventListener( 'load', init );
+	</script>
+</body>
+</html>

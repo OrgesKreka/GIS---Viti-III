@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Kerkesa 1</title>
+
+	<script src="https://maps.googleapis.com/maps/api/js?sensor=false&language=en"></script>
+
+	<style>
+			
+		html, body
+		{
+			height: 100%;
+		}
+
+		#harta
+		{
+			margin-top: 5%;
+			margin-left: 25%;
+			width: 50%;
+			height: 50%;
+		}
+
+	</style>
+</head>
+<body>
+	
+	<div id="harta"></div>
+
+	<script>
+		
+		var QENDRA = { lat: 41.1533, lng: 20.1683 }, /// qendra e hartes
+		ZOOM = 10; /// shkalla e zoom-it
+
+		///Funksioni qe nderton harten
+		var init = function()
+		{
+			var div = document.querySelector( "#harta" ); /// div
+
+			///Opsionet e krijimit te hartes
+			var opsionet = 
+			{
+				zoom: ZOOM,
+				center: QENDRA,
+				mapTypeId: google.maps.MapTypeId.ROADMAP
+			};
+
+			var harta = new google.maps.Map( div, opsionet );
+		};
+
+		///Funksioni therritet pasi dokumenti eshte bere load
+		window.addEventListener( 'load', init  );
+	</script>
+</body>
+</html>

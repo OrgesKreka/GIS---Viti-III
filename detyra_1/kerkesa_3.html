@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Kerkesa 3</title>
+
+	<script src="https://maps.googleapis.com/maps/api/js?sensor=false&language=en"></script>
+
+	<style>
+			
+		html, body
+		{
+			height: 100%;
+			overflow: hidden;
+		}
+
+		#harta
+		{
+			width: 100%;
+			height: 100%;
+		}
+		
+		h2
+		{
+			text-align: center;
+		}
+	</style>
+</head>
+<body>
+	
+	<h2>Kliko Mbi harte!</h2>
+	<div id="harta"></div>
+
+	<script>
+		var harta;
+
+
+		var init = function()
+		{
+			var div = document.querySelector( "#harta" );
+
+			var opsionet = 
+			{
+				zoom: 10,
+				center: { lat: 41.1533, lng: 20.1683 },
+				mapTypeId: google.maps.MapTypeId.ROADMAP
+			};
+
+			harta = new google.maps.Map( div, opsionet );
+
+
+			///Krijimi i infowindow-s ne klikim mbi harte
+			///Shtimi i ngjarjes ne harte
+			harta.addListener( 'click', function( e ) 
+			{
+				new google.maps.InfoWindow(
+				{
+					content: "Lat: " + e.latLng.lat() + " Lng: " + e.latLng.lng(),
+					map: this,
+					position: e.latLng
+				});
+			});
+
+		};
+
+
+		///Therritja e funksionit init pas ngarkimit te dokumentit
+		window.addEventListener( 'load', init  );
+	</script>
+</body>
+</html>

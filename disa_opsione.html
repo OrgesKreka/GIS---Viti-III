@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<title>Harta</title>
+
+		<script src="https://maps.googleapis.com/maps/api/js?sensor=false&language=en"></script>
+
+		<style>
+			
+			html, body
+			{
+				height: 100%;
+			}
+
+			#harta
+			{
+				margin-top: 15%;
+				margin-left: 25%;
+				width: 50%;
+				height: 50%;
+			}
+
+		</style>
+	</head>
+
+	<body>
+
+		<h3 id="emri" style="text-align: center"></h3>
+
+		<div id="harta"></div>
+
+		<script>
+			
+			var opsionet = 
+			[
+				{
+					zoom: 15,
+					center: new google.maps.LatLng( 41.3275, 19.8187  ),
+					mapTypeId: google.maps.MapTypeId.HYBRID
+				},
+				{
+					zoom: 7,
+					center: new google.maps.LatLng( 40.9420, 19.6996 ),
+					mapTypeId: google.maps.MapTypeId.HYBRID
+				},
+				{
+					zoom: 15,
+					center: new google.maps.LatLng( 40.6141, 20.7778  ),
+					mapTypeId: google.maps.MapTypeId.HYBRID
+				},
+				{
+					zoom: 18,
+					center: new google.maps.LatLng( 41.334476, 19.816465 ),
+					mapTypeId: google.maps.MapTypeId.HYBRID
+				}
+
+			];
+
+			var emrat = [ "Tirane", "Lushnje", "Korce", "Fakulteti i Shkencave te Natyres" ];
+
+			var i = 0;
+			var n = opsionet.length;
+
+			var harta;
+
+
+			function nderto_harten()
+			{
+
+				var div = document.querySelector( '#harta' );
+
+				var opsion = opsionet[ 0 ];
+
+				 harta = new google.maps.Map( div, opsion );
+
+			}///FUND nderto_harten
+
+
+			ngjarjet = function()
+			{	
+
+				if( i < n )
+				{	
+
+					var h3 = document.getElementById( 'emri' );
+					h3.innerHTML = emrat[ i ];
+
+					if( i == 0 )
+					{
+						google.maps.event.addDomListener( window, 'load', nderto_harten );
+						
+					}
+					else
+					{
+						var opsion = opsionet[ i ];
+						var qendra = opsionet[ i ].center;
+
+						var gjeresia = qendra.lng();
+						var gjatesia = qendra.lat();
+
+						harta.setCenter( { lat: gjatesia, lng: gjeresia } );
+
+					}
+
+					i++;
+					setTimeout( ngjarjet, 5000 );
+				}
+
+				
+			};///FUND ngjarjet
+
+			ngjarjet();
+		
+		</script>
+	</body>
+</html>
+

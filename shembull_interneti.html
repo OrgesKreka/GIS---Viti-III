@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+
+	<style>
+		#map-canvas
+		{
+			height: 500px;
+		}
+	</style>
+
+	<title>Shembull</title>
+
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js"></script>
+	<script src="https://maps.googleapis.com/maps/api/js?libraries=places&sensor=false"></script>
+	
+	<script>
+		
+		var map;
+		var service;
+
+		function handleSearchResults( results, status )
+		{	
+
+			for( var i = 0; i < results.length; i++ )
+			{
+				var marker = new google.maps.Marker(
+				{
+					position: results[ i ].geometry.location,
+					map: map,
+					//icon: results[ i ].icon
+					icon: 'moncheri.png'
+				});
+			}		
+		}
+
+
+		function performSearch()
+		{	
+			var request = 
+			{
+				bounds: map.getBounds(),
+				name: "Mon Cheri Bar"
+			};
+
+			service.nearbySearch( request, handleSearchResults );
+		}
+
+
+		function initialise( location )
+		{
+			var currentLocation = { lat: location.coords.latitude, lng: location.coords.longitude };
+			var mapOptions = 
+			{
+				center: currentLocation,
+				zoom: 12,
+				mapTypeId: google.maps.MapTypeId.ROADMAP
+			};
+
+			var div = jQuery( "#map-canvas" )[ 0 ];
+			map = new google.maps.Map( div	, mapOptions );
+
+			var marker = new google.maps.Marker(
+			{
+				position: currentLocation,
+				map: map
+			});
+
+			service = new google.maps.places.PlacesService( map );
+
+			google.maps.event.addListenerOnce( map, 'bounds_changed', performSearch );
+
+
+			jQuery( "#refresh" ).click( performSearch );
+
+			/// draw Circle on map
+			var circleOptions = 
+			{
+				strokeColor: "#0000FF",
+				strokeOpacity: 0.8,
+				strokeWeight: 1.5,
+				fillColor: "#0000FF",
+				fillOpacity: 0.35,
+				map: map,
+				center: currentLocation,
+				radius: 5000
+			};
+
+			var circle = new google.maps.Circle( circleOptions );
+
+			var trafficLayer = new google.maps.TrafficLayer();
+
+			jQuery( '#toggle-traffic' ).click( function()
+			{
+				if( trafficLayer.getMap() )
+				{
+					trafficLayer.setMap( null );
+
+				} 
+				else
+				{
+					trafficLayer.setMap( map );
+					
+				}
+			});
+		}
+
+		jQuery( document ).ready( function()
+		{
+			navigator.geolocation.getCurrentPosition( initialise );
+		});
+	</script>
+
+</head>
+<body>
+	
+	<div id="map-canvas"></div>
+	<button id="refresh">Refresh</button>
+	<button id="toggle-traffic">Trafic</button>
+	<button id="toggle-weather">Weather</button>
+</body>
+</html>

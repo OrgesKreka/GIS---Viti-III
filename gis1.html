@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<title>Harta Shqiperise</title>
+
+		<script src="https://maps.googleapis.com/maps/api/js?sensor=false&language=en"></script>
+
+		<style>
+			
+			html, body
+			{
+				height: 100%;
+			}
+
+			#harta
+			{
+				margin-top: 15%;
+				margin-left: 25%;
+				width: 50%;
+				height: 50%;
+			}
+
+		</style>
+	</head>
+
+	<body>
+		<div id="harta"></div>
+
+<!-- 
+		<script>
+			
+			var harta;
+
+			function inicializo_harten()
+			{
+				var div = document.querySelector( '#harta' );
+
+				var opsionet =
+				{
+					zoom: 7,
+					center: new google.maps.LatLng( 41.1533, 20.1683 ),
+					mapTypeId: google.maps.MapTypeId.HYBRID
+				};
+
+				 harta = new google.maps.Map( div, opsionet );
+			} ///FUND inicializo_harten
+
+			google.maps.event.addDomListener( window, 'load', inicializo_harten );
+		</script> -->
+
+	<!-- 	<script>
+			
+			function inicializo_harten()
+			{
+				var div = document.querySelector( '#harta' );
+
+				var opsionet = 
+				{
+
+					zoom: 7,
+					center: new google.maps.LatLng( 41.1533, 20.1683 ),
+					mapTypeId: google.maps.MapTypeId.HYBRID
+				};
+
+				var harta = new google.maps.Map( div, opsionet );
+			}///FUND
+
+			google.maps.event.addDomListener( window, 'load', inicializo_harten );
+		</script> -->
+
+		<!-- Harta e inicializuar ne FSHN -->
+<!-- 		<script>
+			
+			function inicializo_harten()
+			{
+				var div = document.querySelector( '#harta' );
+
+				var opsionet = 
+				{
+					zoom: 20,
+					center: new google.maps.LatLng( 41.334722, 19.816385 ),
+					mapTypeId: google.maps.MapTypeId.HYBRID
+				};
+
+				var harta = new google.maps.Map( div, opsionet );
+			}///FUND
+
+			google.maps.event.addDomListener( window, 'load', inicializo_harten );
+		</script> -->
+
+		<!-- Harta me vendodhje ne Lejkas -->
+		<!-- <script>
+			
+			function inicializo_harten()
+			{
+				var div = document.querySelector( '#harta' );
+
+				var opsionet = 
+				{
+					zoom: 15,
+					center: new google.maps.LatLng( 40.601791, 20.514470 ),
+					mapTypeId: google.maps.MapTypeId.HYBRID
+				}
+
+				var harta = new google.maps.Map( div, opsionet );
+			}///FUND
+
+			google.maps.event.addDomListener( window, 'load', inicializo_harten );
+		</script> -->
+
+
+		<!-- Krijimi i divit dhe ngarkimi i hartes pas hapjes se dokumentit-->
+		<script>
+			
+			function nderto_div()
+			{
+				var div = document.createElement( 'div' );
+				div.id = "harta";
+
+				document.getElementByTagName( body ).appendChild( div );
+			}
+
+
+			window.addEventListener( 'load', nderto_div );
+
+
+			///Ndertimi i hartes
+			function nderto_harten()
+			{
+				var div = document.querySelector( '#harta' );
+				var opsionet = 
+				{
+					zoom: 18,
+					center: new google.maps.LatLng( 41.334476, 19.816465 ),
+					mapTypeId: google.maps.MapTypeId.HYBRID
+				};
+
+				var harta = new google.maps.Map( div, opsionet );
+			}///FUND
+
+			google.maps.event.addDomListener( window, 'load', nderto_harten );
+		</script>
+	</body> 
+
+
+</html>
