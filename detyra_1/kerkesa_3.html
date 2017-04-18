@@ -33,7 +33,7 @@
 
 	<script>
 		var harta;
-
+		var infoAktuale;
 
 		var init = function()
 		{
@@ -52,8 +52,13 @@
 			///Krijimi i infowindow-s ne klikim mbi harte
 			///Shtimi i ngjarjes ne harte
 			harta.addListener( 'click', function( e ) 
-			{
-				new google.maps.InfoWindow(
+			{	
+				if( infoAktuale != null )
+				{
+					infoAktuale.close();
+				}
+
+				infoAktuale = new google.maps.InfoWindow(
 				{
 					content: "Lat: " + e.latLng.lat() + " Lng: " + e.latLng.lng(),
 					map: this,
