@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<head>
+<script src="https://maps.google.com/maps/api/js?key=AIzaSyBsPgS7wM6Rz3fymo4Nb042Z0Ql7xE7IOE"></script>
+
+	<style>
+		
+		html, body
+		{
+			width: 100%;
+			height: 100%;
+			padding: 0;
+			margin: 0;
+			overflow: hidden;
+		}
+
+		#map 
+		{
+			width:100%;
+			height:90%;
+		}
+	</style>
+</head>
+
+<body>
+
+<h1 style="text-align: center;">Harta</h1>
+
+	<div id="map"></div>
+
+<script>
+	
+	
+	///------------------------VARIABLA S U P E R GLOBAL
+	var marker1 = { lat: 41.319001, lng: 19.831775 };
+	var marker2 = { lat: 41.332520, lng: 19.817049 };
+	
+	var info_me_permbajtje_koordinatat = null;
+
+	var m1, m2;
+
+	var detyra = 1;
+
+
+	////-------Variablat e detyres 1
+	var koorddinataPolyline = new Array( marker1 );
+
+	var harta;
+
+	var perfundoiPolyline = false;
+
+	var polyline;
+	//////--------------------------Variablat e detyres 2
+
+	var myMvcArray = new google.maps.MVCArray();
+	myMvcArray.push( new google.maps.LatLng( 41.319001, 19.831775 )  );
+	var polygon;
+	var perfundoiPolygoni = false;
+	////-------------------------Variablat e detyres 4
+	var numriKlikimit = 1;
+	var rrezja = 100;
+
+
+
+
+	function initMap()
+	{	
+		var div = document.querySelector( "#map" );
+		var opsionet = 
+		{
+			center: { lat: 41.3275, lng: 19.8187 },
+			zoom: 14,
+			disableDoubleClickZoom: true, // <---
+			mapTypeId: google.maps.MapTypeId.TERRAIN
+		};
+
+		harta = new google.maps.Map( div, opsionet );
+
+
+		///Krijimi i markerave dhe ngjitja ne harte
+		m1 = new google.maps.Marker(
+		{
+			position: marker1,
+			label: "1",
+			animation: google.maps.Animation.BOUNCE,
+			map: harta
+		});
+
+		var info1 = new google.maps.InfoWindow(
+		{
+			content: "Fillimi i polyline!",
+		});
+		info1.open( harta, m1 );
+
+
+		m2 = new google.maps.Marker( 
+		{
+			position: marker2,
+			label: "2",
+			//animation: google.maps.Animation.BOUNCE,
+			map: harta
+		});
+
+		var info2 = new google.maps.InfoWindow(
+		{
+			content: "Fundi i polyline"
+		});
+		info2.open( harta, m2 );
+
+		if( detyra == 1 )
+		{
+			///Krijimi i polyline
+			polyline = new google.maps.Polyline(
+			{
+				path: koorddinataPolyline,
+				strokeColor: "#008B8B",
+				strokeOpacity: 1.0,
+				strokeWeight: 10,
+				map: harta,
+				icons: 
+				[{
+		            icon: {path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW},
+		            offset: '100%'
+		        }]
+			});///FUND polyline
+
+
+			///Nese klikon mbi markerin e dyte
+			google.maps.event.addListenerOnce( m2, 'click', function()
+			{	
+
+				var path = polyline.getPath();
+				path.push( this.position );
+				perfundoiPolyline = true;
+				detyra = 2;
+				alert( "Polyline u ndertua!" );
+
+			});
+
+			harta.addListener( 'click', addLatLng );
+		}
+
+		///----------------Kerkesa 2
+	
+		harta.addListener( 'dblclick', addToPolygon );
+
+		///-------------Kerkesa 3
+
+		ndertoRectangle( m1, m2 );
+
+
+		///----------Kerkesa 4
+		polyline.addListener( 'click', ndertoRrethin );
+	}///FUND init
+
+
+	function addLatLng( e )
+	{
+		if( !perfundoiPolyline )
+		{
+			var path = polyline.getPath();
+			var gjatesia = path.getLength();
+
+			path.push( e.latLng );
+		}
+	}
+///------------------------FUND detyra 1
+
+function addToPolygon( e )
+{
+	
+
+	var n = myMvcArray.getLength();
+
+	if( n <= 5 != 0  && !perfundoiPolygoni )
+	{
+		myMvcArray.push( e.latLng );
+		
+	}
+	else
+	{	
+		perfundoiPolygoni = true;
+		detyra = 3;
+
+		polygon = new google.maps.Polygon(
+			{
+				path: myMvcArray,
+				fillColor: "#008B8B",
+				strokeOpacity: 1.0,
+				strokeWeight: 5,
+				map: harta,
+			});
+
+
+		alert( "Poligoni u ndertua!" );
+		
+	}
+}
+///--------------------------FUND detyra 2
+
+function ndertoRectangle(m1, m2)
+{
+	var rectangle = new google.maps.Rectangle({
+          strokeColor: '#FF0000',
+          strokeOpacity: 0.8,
+          strokeWeight: 2,
+          fillColor: '#FF0000',
+          fillOpacity: 0.35,
+          map: harta,
+          bounds: 
+          {
+            north: m1.getPosition().lat(),
+            west: m2.getPosition().lng(),
+            south: m2.getPosition().lat(),
+            east: m1.getPosition().lng(),
+          }
+        });
+
+}	
+
+///-------------------------FUND detyra 3
+	function ndertoRrethin( e )
+	{	
+		var rreth = new google.maps.Circle(
+		{
+			 strokeColor: '#FF0000',
+            strokeOpacity: 0.8,
+            strokeWeight: 2,
+            fillColor: '#FF0000',
+            fillOpacity: 0.35,
+            map: harta,
+            center: e.latLng,
+            radius: rrezja * numriKlikimit
+		});
+
+			numriKlikimit++;
+	} 
+
+///--------------------FUND detyra 4
+
+window.addEventListener( 'load', initMap );
+
+</script>
+</body>
+</html>
